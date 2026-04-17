@@ -27,9 +27,9 @@ import {
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
 export default function HomePage() {
-  const { data: mediaItems } = useGetMediaItems();
+  const { data: mediaItems, isLoading: isLoadingMedia } = useGetMediaItems();
   const { data: shows } = useGetShows();
-  const { data: products } = useGetProducts();
+  const { data: products, isLoading: isLoadingProducts } = useGetProducts();
   const { data: designConfig } = useGetDesignConfig();
   const { data: homepageConfig } = useGetHomepageConfig();
   const navigate = useNavigate();
@@ -153,6 +153,8 @@ export default function HomePage() {
               loop={heroVideo?.shouldLoop ?? true}
               muted={isMuted}
               playsInline
+              preload="none"
+              poster={heroImage || ""}
             >
               <source src={videoUrl} type="video/mp4" />
               Your browser does not support the video tag.
@@ -304,7 +306,7 @@ export default function HomePage() {
 
       <main className="flex-1">
         {/* Latest Releases */}
-        {latestRelease && (
+        {(isLoadingMedia || latestRelease) && (
           <section
             ref={releasesSection.ref}
             className={cn(
@@ -318,77 +320,100 @@ export default function HomePage() {
               <h2 className="text-4xl font-bold mb-12 text-center tracking-tight">
                 Latest Releases
               </h2>
-              <Card
-                className="max-w-4xl mx-auto cursor-pointer transition-all duration-300"
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLDivElement;
-                  el.style.boxShadow = `0 8px 40px ${accentColor}35`;
-                  el.style.transform = "scale(1.01)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLDivElement;
-                  el.style.boxShadow = "";
-                  el.style.transform = "";
-                }}
-                onClick={() => navigate({ to: "/media" })}
-                data-ocid="home.latest_release.card"
-              >
-                <CardContent className="p-0">
-                  <div className="grid md:grid-cols-2 gap-8 p-8">
-                    <div className="bg-muted rounded-lg overflow-hidden flex items-center justify-center">
-                      {latestRelease.images[0] && (
-                        <img
-                          src={latestRelease.images[0].file.getDirectURL()}
-                          alt={latestRelease.title}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-auto object-contain"
-                        />
-                      )}
-                    </div>
-                    <div className="flex flex-col justify-center">
-                      <Badge
-                        className="mb-4 w-fit"
-                        style={{ backgroundColor: accentColor, color: "#000" }}
-                      >
-                        {latestRelease.mediaType}
-                      </Badge>
-                      <h3 className="text-3xl font-bold mb-4">
-                        {latestRelease.title}
-                      </h3>
-                      <p className="text-muted-foreground mb-6">
-                        {latestRelease.description}
-                      </p>
-                      {latestRelease.streamingPlatforms &&
-                        latestRelease.streamingPlatforms.length > 0 && (
-                          <div className="space-y-3">
-                            <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-                              Stream On
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                              {latestRelease.streamingPlatforms.map(
-                                (platform, idx) => (
-                                  <Button
-                                    // biome-ignore lint/suspicious/noArrayIndexKey: streaming order
-                                    key={idx}
-                                    variant="outline"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      window.open(platform.url, "_blank");
-                                    }}
-                                  >
-                                    {platform.platformLabel}
-                                    <ExternalLink className="ml-2 h-4 w-4" />
-                                  </Button>
-                                ),
-                              )}
-                            </div>
-                          </div>
-                        )}
+              {isLoadingMedia ? (
+                <div className="max-w-4xl mx-auto">
+                  <div className="bg-muted animate-pulse rounded-xl overflow-hidden">
+                    <div className="grid md:grid-cols-2 gap-8 p-8">
+                      <div className="aspect-square bg-muted-foreground/10 rounded-lg" />
+                      <div className="flex flex-col justify-center gap-4">
+                        <div className="h-6 w-20 bg-muted-foreground/10 rounded-full" />
+                        <div className="h-8 w-3/4 bg-muted-foreground/10 rounded" />
+                        <div className="h-4 w-full bg-muted-foreground/10 rounded" />
+                        <div className="h-4 w-2/3 bg-muted-foreground/10 rounded" />
+                        <div className="flex gap-2 mt-2">
+                          <div className="h-9 w-24 bg-muted-foreground/10 rounded" />
+                          <div className="h-9 w-24 bg-muted-foreground/10 rounded" />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              ) : latestRelease ? (
+                <Card
+                  className="max-w-4xl mx-auto cursor-pointer transition-all duration-300"
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.boxShadow = `0 8px 40px ${accentColor}35`;
+                    el.style.transform = "scale(1.01)";
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.boxShadow = "";
+                    el.style.transform = "";
+                  }}
+                  onClick={() => navigate({ to: "/media" })}
+                  data-ocid="home.latest_release.card"
+                >
+                  <CardContent className="p-0">
+                    <div className="grid md:grid-cols-2 gap-8 p-8">
+                      <div className="bg-muted rounded-lg overflow-hidden flex items-center justify-center">
+                        {latestRelease.images[0] && (
+                          <img
+                            src={latestRelease.images[0].file.getDirectURL()}
+                            alt={latestRelease.title}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-auto object-contain"
+                          />
+                        )}
+                      </div>
+                      <div className="flex flex-col justify-center">
+                        <Badge
+                          className="mb-4 w-fit"
+                          style={{
+                            backgroundColor: accentColor,
+                            color: "#000",
+                          }}
+                        >
+                          {latestRelease.mediaType}
+                        </Badge>
+                        <h3 className="text-3xl font-bold mb-4">
+                          {latestRelease.title}
+                        </h3>
+                        <p className="text-muted-foreground mb-6">
+                          {latestRelease.description}
+                        </p>
+                        {latestRelease.streamingPlatforms &&
+                          latestRelease.streamingPlatforms.length > 0 && (
+                            <div className="space-y-3">
+                              <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                                Stream On
+                              </p>
+                              <div className="flex flex-wrap gap-2">
+                                {latestRelease.streamingPlatforms.map(
+                                  (platform, idx) => (
+                                    <Button
+                                      // biome-ignore lint/suspicious/noArrayIndexKey: streaming order
+                                      key={idx}
+                                      variant="outline"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        window.open(platform.url, "_blank");
+                                      }}
+                                    >
+                                      {platform.platformLabel}
+                                      <ExternalLink className="ml-2 h-4 w-4" />
+                                    </Button>
+                                  ),
+                                )}
+                              </div>
+                            </div>
+                          )}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : null}
             </div>
           </section>
         )}
@@ -496,7 +521,7 @@ export default function HomePage() {
         )}
 
         {/* Featured Merch */}
-        {featuredProducts.length > 0 && (
+        {(isLoadingProducts || featuredProducts.length > 0) && (
           <section
             ref={merchSection.ref}
             className={cn(
@@ -510,77 +535,98 @@ export default function HomePage() {
               <h2 className="text-4xl font-bold mb-12 text-center tracking-tight">
                 Featured Merch
               </h2>
-              <div className="grid md:grid-cols-4 gap-6">
-                {featuredProducts.map((product) => (
-                  <Card
-                    key={product.id}
-                    className="cursor-pointer transition-all duration-300"
-                    onMouseEnter={(e) => {
-                      const el = e.currentTarget as HTMLDivElement;
-                      el.style.boxShadow = `0 6px 28px ${accentColor}30`;
-                      el.style.transform = "scale(1.02)";
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget as HTMLDivElement;
-                      el.style.boxShadow = "";
-                      el.style.transform = "";
-                    }}
-                    onClick={() => navigate({ to: "/shop" })}
-                    data-ocid="home.merch.card"
-                  >
-                    <CardContent className="p-0">
-                      <div className="aspect-square bg-muted flex items-center justify-center overflow-hidden rounded-t-lg">
-                        {product.images && product.images.length > 0 && (
-                          <img
-                            src={product.images[0].getDirectURL()}
-                            alt={product.name}
-                            loading="lazy"
-                            decoding="async"
-                            className="w-full h-full object-contain p-4"
-                          />
-                        )}
+              {isLoadingProducts ? (
+                <div className="grid md:grid-cols-4 gap-6">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div
+                      key={i}
+                      className="bg-muted animate-pulse rounded-xl overflow-hidden"
+                    >
+                      <div className="aspect-square bg-muted-foreground/10" />
+                      <div className="p-4 space-y-2">
+                        <div className="h-3 w-16 bg-muted-foreground/10 rounded-full" />
+                        <div className="h-5 w-3/4 bg-muted-foreground/10 rounded" />
+                        <div className="h-3 w-full bg-muted-foreground/10 rounded" />
+                        <div className="h-5 w-12 bg-muted-foreground/10 rounded" />
                       </div>
-                      <div className="p-4">
-                        {product.categories &&
-                          product.categories.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mb-2">
-                              {product.categories.map((cat, idx) => (
-                                <Badge
-                                  // biome-ignore lint/suspicious/noArrayIndexKey: category order
-                                  key={idx}
-                                  variant="outline"
-                                  className="text-xs"
-                                >
-                                  {cat}
-                                </Badge>
-                              ))}
-                            </div>
-                          )}
-                        <h3 className="font-bold mb-2">{product.name}</h3>
-                        <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
-                          {product.description}
-                        </p>
-                        {product.variants[0] && (
-                          <p className="font-bold">
-                            €
-                            {(Number(product.variants[0].price) / 100).toFixed(
-                              2,
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <div className="grid md:grid-cols-4 gap-6">
+                    {featuredProducts.map((product) => (
+                      <Card
+                        key={product.id}
+                        className="cursor-pointer transition-all duration-300"
+                        onMouseEnter={(e) => {
+                          const el = e.currentTarget as HTMLDivElement;
+                          el.style.boxShadow = `0 6px 28px ${accentColor}30`;
+                          el.style.transform = "scale(1.02)";
+                        }}
+                        onMouseLeave={(e) => {
+                          const el = e.currentTarget as HTMLDivElement;
+                          el.style.boxShadow = "";
+                          el.style.transform = "";
+                        }}
+                        onClick={() => navigate({ to: "/shop" })}
+                        data-ocid="home.merch.card"
+                      >
+                        <CardContent className="p-0">
+                          <div className="aspect-square bg-muted flex items-center justify-center overflow-hidden rounded-t-lg">
+                            {product.images && product.images.length > 0 && (
+                              <img
+                                src={product.images[0].getDirectURL()}
+                                alt={product.name}
+                                loading="lazy"
+                                decoding="async"
+                                className="w-full h-full object-contain p-4"
+                              />
                             )}
-                          </p>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              <div className="text-center mt-8">
-                <Button
-                  variant="outline"
-                  onClick={() => navigate({ to: "/shop" })}
-                >
-                  View Shop
-                </Button>
-              </div>
+                          </div>
+                          <div className="p-4">
+                            {product.categories &&
+                              product.categories.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mb-2">
+                                  {product.categories.map((cat, idx) => (
+                                    <Badge
+                                      // biome-ignore lint/suspicious/noArrayIndexKey: category order
+                                      key={idx}
+                                      variant="outline"
+                                      className="text-xs"
+                                    >
+                                      {cat}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              )}
+                            <h3 className="font-bold mb-2">{product.name}</h3>
+                            <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
+                              {product.description}
+                            </p>
+                            {product.variants[0] && (
+                              <p className="font-bold">
+                                €
+                                {(
+                                  Number(product.variants[0].price) / 100
+                                ).toFixed(2)}
+                              </p>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                  <div className="text-center mt-8">
+                    <Button
+                      variant="outline"
+                      onClick={() => navigate({ to: "/shop" })}
+                    >
+                      View Shop
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
           </section>
         )}

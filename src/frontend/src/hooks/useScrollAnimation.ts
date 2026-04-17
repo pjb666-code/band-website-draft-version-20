@@ -6,8 +6,7 @@ interface UseScrollAnimationOptions {
 }
 
 export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
-  // Use a negative rootMargin to trigger slightly before elements enter viewport
-  const { threshold = 0.1, rootMargin = "-40px" } = options;
+  const { threshold = 0.1, rootMargin = "0px 0px -50px 0px" } = options;
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -28,11 +27,15 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
       },
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+    // Small delay so the element is fully painted before observation starts
+    const timer = setTimeout(() => {
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+    }, 50);
 
     return () => {
+      clearTimeout(timer);
       observer.disconnect();
     };
   }, [threshold, rootMargin]);

@@ -35,6 +35,7 @@ export function useGetDesignConfig() {
       return actor.getDesignConfig();
     },
     enabled: !!actor && !isFetching,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
@@ -64,6 +65,7 @@ export function useGetHomepageConfig() {
       return actor.getHomepageConfig();
     },
     enabled: !!actor && !isFetching,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
@@ -93,6 +95,7 @@ export function useGetSocialMediaLinks() {
       return actor.getSocialMediaLinks();
     },
     enabled: !!actor && !isFetching,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
@@ -122,6 +125,7 @@ export function useGetContactConfig() {
       return actor.getContactConfig();
     },
     enabled: !!actor && !isFetching,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
@@ -180,6 +184,7 @@ export function useGetBookingConfig() {
       return actor.getBookingConfig();
     },
     enabled: !!actor && !isFetching,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
@@ -225,6 +230,7 @@ export function useGetMediaItems() {
       return actor.getMediaItems();
     },
     enabled: !!actor && !isFetching,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
@@ -284,6 +290,7 @@ export function useGetProducts() {
       return actor.getProducts();
     },
     enabled: !!actor && !isFetching,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
@@ -358,6 +365,7 @@ export function useGetShows() {
       return actor.getShows();
     },
     enabled: !!actor && !isFetching,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
@@ -417,6 +425,7 @@ export function useGetAboutContent() {
       return actor.getAboutContent();
     },
     enabled: !!actor && !isFetching,
+    staleTime: 5 * 60 * 1000,
   });
 }
 
