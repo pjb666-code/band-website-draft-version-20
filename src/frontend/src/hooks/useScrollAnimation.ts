@@ -6,7 +6,8 @@ interface UseScrollAnimationOptions {
 }
 
 export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
-  const { threshold = 0.1, rootMargin = "0px" } = options;
+  // Use a negative rootMargin to trigger slightly before elements enter viewport
+  const { threshold = 0.1, rootMargin = "-40px" } = options;
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -16,7 +17,7 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             setIsVisible(true);
-            // Optionally disconnect after first trigger
+            // Single play — disconnect after first trigger
             observer.disconnect();
           }
         }

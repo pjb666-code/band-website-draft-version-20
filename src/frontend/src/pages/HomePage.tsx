@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { useNavigate } from "@tanstack/react-router";
 import {
   Calendar,
@@ -23,39 +24,25 @@ import {
   useGetProducts,
   useGetShows,
 } from "../hooks/useQueries";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
 export default function HomePage() {
-  const {
-    data: mediaItems,
-    isLoading: mediaLoading,
-    error: mediaError,
-  } = useGetMediaItems();
-  const {
-    data: shows,
-    isLoading: showsLoading,
-    error: showsError,
-  } = useGetShows();
-  const {
-    data: products,
-    isLoading: productsLoading,
-    error: productsError,
-  } = useGetProducts();
-  const {
-    data: designConfig,
-    isLoading: designLoading,
-    error: designError,
-  } = useGetDesignConfig();
-  const {
-    data: homepageConfig,
-    isLoading: homepageLoading,
-    error: homepageError,
-  } = useGetHomepageConfig();
+  const { data: mediaItems } = useGetMediaItems();
+  const { data: shows } = useGetShows();
+  const { data: products } = useGetProducts();
+  const { data: designConfig } = useGetDesignConfig();
+  const { data: homepageConfig } = useGetHomepageConfig();
   const navigate = useNavigate();
 
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const accentColor = designConfig?.accentColor || "#00FF00";
+  // Scroll animation refs for each section
+  const releasesSection = useScrollAnimation({ threshold: 0.1 });
+  const showsSection = useScrollAnimation({ threshold: 0.05 });
+  const merchSection = useScrollAnimation({ threshold: 0.05 });
+
+  const accentColor = designConfig?.accentColor || "#8b5cf6";
   const heroImage = designConfig?.heroImage?.getDirectURL();
   const heroVideo = designConfig?.heroVideo;
   const heroMediaType = designConfig?.heroMediaType || HeroMediaType.image;
@@ -106,47 +93,6 @@ export default function HomePage() {
     }
     return null;
   };
-
-  // Check if all critical data is loading
-  const isLoading =
-    mediaLoading ||
-    showsLoading ||
-    productsLoading ||
-    designLoading ||
-    homepageLoading;
-
-  // Check if any critical data failed to load
-  const hasError =
-    mediaError || showsError || productsError || designError || homepageError;
-
-  // Show loading state while data is being fetched
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <div className="flex-1 flex items-center justify-center">
-          <div className="animate-pulse text-muted-foreground">Loading...</div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
-  // Show error state if data fetch failed
-  if (hasError) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <p className="text-red-500 mb-4">Failed to load content</p>
-            <Button onClick={() => window.location.reload()}>Retry</Button>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
 
   // Get latest release based on homepage config
   const latestRelease = homepageConfig?.latestReleaseId
@@ -217,9 +163,7 @@ export default function HomePage() {
               onClick={toggleMute}
               className="absolute top-24 right-6 z-20 p-3 rounded-full bg-black/50 hover:bg-black/70 transition-all backdrop-blur-sm"
               aria-label={isMuted ? "Unmute video" : "Mute video"}
-              style={{
-                color: accentColor,
-              }}
+              style={{ color: accentColor }}
             >
               {isMuted ? (
                 <VolumeX className="h-5 w-5" />
@@ -239,26 +183,36 @@ export default function HomePage() {
           />
         )}
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/60" />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/55" />
+        {/* Stronger gradient at bottom — last ~35% of hero fades to dark */}
+        <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none" />
+        {/* Subtle accent glow from center */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `radial-gradient(ellipse 60% 50% at 50% 40%, ${accentColor}08 0%, transparent 70%)`,
+          }}
+        />
 
-        {/* Content */}
+        {/* Hero Content */}
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
           {logoUrl && showLogoInHero && (
             <img
               src={logoUrl}
               alt="Oneiric"
-              className="mx-auto mb-8 animate-fade-in"
+              className="mx-auto mb-8 animate-fade-in drop-shadow-2xl"
               style={{ height: `${logoSize}px` }}
             />
           )}
           {tagline && (
             <h1
-              className="font-bold mb-4 animate-fade-in"
+              className="font-bold mb-4 animate-fade-in tracking-tight leading-none drop-shadow-lg"
               style={{
                 color: designConfig?.heroTextColor || "#FFFFFF",
-                fontSize: `${designConfig?.heroTextSize || 48}px`,
+                fontSize: `${designConfig?.heroTextSize || 56}px`,
                 animationDelay: "0.2s",
+                textShadow: "0 2px 20px rgba(0,0,0,0.6)",
               }}
             >
               {tagline}
@@ -266,11 +220,12 @@ export default function HomePage() {
           )}
           {heroSubtitle && (
             <p
-              className="text-lg md:text-xl mb-8 max-w-2xl mx-auto animate-fade-in"
+              className="text-lg md:text-xl mb-8 max-w-2xl mx-auto animate-fade-in tracking-wide"
               style={{
                 color: designConfig?.heroTextColor || "#FFFFFF",
-                opacity: 0.9,
+                opacity: 0.88,
                 animationDelay: "0.4s",
+                textShadow: "0 1px 8px rgba(0,0,0,0.5)",
               }}
             >
               {heroSubtitle}
@@ -288,7 +243,7 @@ export default function HomePage() {
                     type="button"
                     key={btn.id}
                     onClick={() => handleQuickButtonClick(btn.url)}
-                    className="px-6 py-3 font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center"
+                    className="px-6 py-3 font-semibold transition-all duration-200 flex items-center justify-center gap-2"
                     style={{
                       backgroundColor:
                         buttonStyle?.backgroundColor || accentColor,
@@ -300,6 +255,8 @@ export default function HomePage() {
                       boxShadow: `0 0 20px ${accentColor}40`,
                     }}
                     onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.06)";
+                      e.currentTarget.style.boxShadow = `0 0 32px ${accentColor}70`;
                       if (buttonStyle) {
                         e.currentTarget.style.backgroundColor =
                           buttonStyle.hoverBackgroundColor;
@@ -307,24 +264,23 @@ export default function HomePage() {
                           buttonStyle.hoverTextColor;
                         e.currentTarget.style.borderColor =
                           buttonStyle.hoverBorderColor;
-                        e.currentTarget.style.boxShadow = `0 0 30px ${accentColor}60`;
                       }
                     }}
                     onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "";
+                      e.currentTarget.style.boxShadow = `0 0 20px ${accentColor}40`;
                       if (buttonStyle) {
                         e.currentTarget.style.backgroundColor =
                           buttonStyle.backgroundColor;
                         e.currentTarget.style.color = buttonStyle.textColor;
                         e.currentTarget.style.borderColor =
                           buttonStyle.borderColor;
-                        e.currentTarget.style.boxShadow = `0 0 20px ${accentColor}40`;
                       }
                     }}
+                    data-ocid="home.quick_button"
                   >
                     {icon}
-                    <span className={icon ? "ml-2" : ""}>
-                      {btn.buttonLabel}
-                    </span>
+                    <span>{btn.buttonLabel}</span>
                   </button>
                 );
               })}
@@ -332,7 +288,7 @@ export default function HomePage() {
           )}
         </div>
 
-        {/* Scroll Down Indicator - Simple Animated Arrow */}
+        {/* Scroll Down Indicator */}
         <button
           type="button"
           onClick={scrollToContent}
@@ -349,14 +305,33 @@ export default function HomePage() {
       <main className="flex-1">
         {/* Latest Releases */}
         {latestRelease && (
-          <section className="py-20 px-4">
+          <section
+            ref={releasesSection.ref}
+            className={cn(
+              "py-20 px-4 transition-all duration-700",
+              releasesSection.isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10",
+            )}
+          >
             <div className="max-w-7xl mx-auto">
-              <h2 className="text-4xl font-bold mb-12 text-center">
+              <h2 className="text-4xl font-bold mb-12 text-center tracking-tight">
                 Latest Releases
               </h2>
               <Card
-                className="max-w-4xl mx-auto cursor-pointer hover:border-accent/50 transition-all"
+                className="max-w-4xl mx-auto cursor-pointer transition-all duration-300"
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLDivElement;
+                  el.style.boxShadow = `0 8px 40px ${accentColor}35`;
+                  el.style.transform = "scale(1.01)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLDivElement;
+                  el.style.boxShadow = "";
+                  el.style.transform = "";
+                }}
                 onClick={() => navigate({ to: "/media" })}
+                data-ocid="home.latest_release.card"
               >
                 <CardContent className="p-0">
                   <div className="grid md:grid-cols-2 gap-8 p-8">
@@ -365,6 +340,8 @@ export default function HomePage() {
                         <img
                           src={latestRelease.images[0].file.getDirectURL()}
                           alt={latestRelease.title}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-auto object-contain"
                         />
                       )}
@@ -385,7 +362,7 @@ export default function HomePage() {
                       {latestRelease.streamingPlatforms &&
                         latestRelease.streamingPlatforms.length > 0 && (
                           <div className="space-y-3">
-                            <p className="text-sm font-semibold text-muted-foreground uppercase">
+                            <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
                               Stream On
                             </p>
                             <div className="flex flex-wrap gap-2">
@@ -418,17 +395,36 @@ export default function HomePage() {
 
         {/* Upcoming Shows */}
         {upcomingShows.length > 0 && (
-          <section className="py-20 px-4 bg-muted/30">
+          <section
+            ref={showsSection.ref}
+            className={cn(
+              "py-20 px-4 bg-muted/30 transition-all duration-700",
+              showsSection.isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10",
+            )}
+          >
             <div className="max-w-7xl mx-auto">
-              <h2 className="text-4xl font-bold mb-12 text-center">
+              <h2 className="text-4xl font-bold mb-12 text-center tracking-tight">
                 Upcoming Shows
               </h2>
               <div className="grid md:grid-cols-3 gap-6">
                 {upcomingShows.map((show) => (
                   <Card
                     key={show.id}
-                    className="cursor-pointer hover:border-accent/50 transition-all"
+                    className="cursor-pointer transition-all duration-300"
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLDivElement;
+                      el.style.boxShadow = `0 6px 28px ${accentColor}30`;
+                      el.style.transform = "scale(1.02)";
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLDivElement;
+                      el.style.boxShadow = "";
+                      el.style.transform = "";
+                    }}
                     onClick={() => navigate({ to: "/shows" })}
+                    data-ocid="home.show.card"
                   >
                     <CardContent className="p-6">
                       {show.flyer && (
@@ -436,13 +432,15 @@ export default function HomePage() {
                           <img
                             src={show.flyer.getDirectURL()}
                             alt={show.title}
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-auto object-contain"
                           />
                         </div>
                       )}
                       <div className="flex items-start gap-3 mb-4">
                         <Calendar
-                          className="h-5 w-5 mt-1"
+                          className="h-5 w-5 mt-1 shrink-0"
                           style={{ color: accentColor }}
                         />
                         <div>
@@ -456,7 +454,7 @@ export default function HomePage() {
                       </div>
                       <div className="flex items-start gap-3 mb-4">
                         <MapPin
-                          className="h-5 w-5 mt-1"
+                          className="h-5 w-5 mt-1 shrink-0"
                           style={{ color: accentColor }}
                         />
                         <div>
@@ -499,24 +497,45 @@ export default function HomePage() {
 
         {/* Featured Merch */}
         {featuredProducts.length > 0 && (
-          <section className="py-20 px-4">
+          <section
+            ref={merchSection.ref}
+            className={cn(
+              "py-20 px-4 transition-all duration-700",
+              merchSection.isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10",
+            )}
+          >
             <div className="max-w-7xl mx-auto">
-              <h2 className="text-4xl font-bold mb-12 text-center">
+              <h2 className="text-4xl font-bold mb-12 text-center tracking-tight">
                 Featured Merch
               </h2>
               <div className="grid md:grid-cols-4 gap-6">
                 {featuredProducts.map((product) => (
                   <Card
                     key={product.id}
-                    className="cursor-pointer hover:border-accent/50 transition-all"
+                    className="cursor-pointer transition-all duration-300"
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLDivElement;
+                      el.style.boxShadow = `0 6px 28px ${accentColor}30`;
+                      el.style.transform = "scale(1.02)";
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLDivElement;
+                      el.style.boxShadow = "";
+                      el.style.transform = "";
+                    }}
                     onClick={() => navigate({ to: "/shop" })}
+                    data-ocid="home.merch.card"
                   >
                     <CardContent className="p-0">
-                      <div className="aspect-square bg-muted flex items-center justify-center">
+                      <div className="aspect-square bg-muted flex items-center justify-center overflow-hidden rounded-t-lg">
                         {product.images && product.images.length > 0 && (
                           <img
                             src={product.images[0].getDirectURL()}
                             alt={product.name}
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-contain p-4"
                           />
                         )}

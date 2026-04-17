@@ -22,10 +22,13 @@ export default function AboutPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  const accentColor = designConfig?.accentColor || "#00FF00";
+  const accentColor = designConfig?.accentColor || "#8b5cf6";
 
-  const mainSection = useScrollAnimation({ threshold: 0.2 });
-  const gallerySection = useScrollAnimation({ threshold: 0.1 });
+  const mainSection = useScrollAnimation({ threshold: 0.1, rootMargin: "0px" });
+  const gallerySection = useScrollAnimation({
+    threshold: 0.05,
+    rootMargin: "0px",
+  });
 
   const handleDownloadPressKit = () => {
     if (aboutContent?.pressKit) {
@@ -72,7 +75,7 @@ export default function AboutPage() {
         <Header />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <p className="text-red-500 mb-4">Failed to load content</p>
+            <p className="text-destructive mb-4">Failed to load content</p>
             <Button onClick={() => window.location.reload()}>Retry</Button>
           </div>
         </div>
@@ -89,7 +92,7 @@ export default function AboutPage() {
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      <main className="flex-1 pt-32 pb-12 px-4">
+      <main className="flex-1 pt-32 pb-16 px-4">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-5xl font-bold mb-12">About Us</h1>
 
@@ -97,20 +100,23 @@ export default function AboutPage() {
           <div
             ref={mainSection.ref}
             className={cn(
-              "grid lg:grid-cols-2 gap-12 mb-16 transition-all duration-1000",
+              "grid lg:grid-cols-2 gap-12 mb-16 transition-all duration-700",
               mainSection.isVisible
                 ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8",
+                : "opacity-0 translate-y-10",
             )}
           >
             {/* Main Band Image - Left */}
             <div className="order-1">
-              <div className="bg-muted rounded-lg overflow-hidden sticky top-32 flex items-center justify-center">
+              <div
+                className="bg-muted rounded-lg overflow-hidden sticky top-32 cursor-pointer group"
+                style={{ minHeight: "280px" }}
+              >
                 {mainPhoto ? (
                   <OptimizedImage
                     src={mainPhoto.getDirectURL()}
                     alt="Band Photo"
-                    className="w-full"
+                    className="w-full group-hover:opacity-90 transition-opacity duration-200"
                     onClick={() => openLightbox(0)}
                     priority
                   />
@@ -182,10 +188,10 @@ export default function AboutPage() {
             <div
               ref={gallerySection.ref}
               className={cn(
-                "transition-all duration-1000 delay-200",
+                "transition-all duration-700 delay-100",
                 gallerySection.isVisible
                   ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8",
+                  : "opacity-0 translate-y-10",
               )}
             >
               <h2 className="text-4xl font-bold mb-8">Gallery</h2>
@@ -202,10 +208,19 @@ export default function AboutPage() {
                     <button
                       key={photo.getDirectURL()}
                       type="button"
-                      className="overflow-hidden rounded-lg bg-muted group flex items-center justify-center cursor-pointer hover:ring-2 hover:ring-accent transition-all w-full text-left"
+                      className="overflow-hidden rounded-lg bg-muted group cursor-pointer hover:ring-2 transition-all w-full text-left"
+                      style={{ minHeight: "200px" }}
                       onClick={() => openLightbox(photoIndex)}
                       onKeyDown={handleKeyDown}
                       aria-label={`Open gallery photo ${photoIndex + 1}`}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                          `0 0 0 2px ${accentColor}`;
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                          "";
+                      }}
                     >
                       <OptimizedImage
                         src={photo.getDirectURL()}

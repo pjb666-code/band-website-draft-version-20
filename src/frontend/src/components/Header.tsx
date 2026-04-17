@@ -11,7 +11,7 @@ export default function Header() {
 
   const logoUrl = designConfig?.logo?.getDirectURL();
   const logoSize = Number(designConfig?.logoSize || 100);
-  const accentColor = designConfig?.accentColor || "#00FF00";
+  const accentColor = designConfig?.accentColor || "#8b5cf6";
   const hoverOutlineColor = designConfig?.hoverOutlineColor || accentColor;
   const showLogoInHeader = designConfig?.logoVisibility?.header ?? true;
   const isAdminPage = location.pathname.startsWith("/admin");

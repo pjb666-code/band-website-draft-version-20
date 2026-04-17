@@ -16,7 +16,7 @@ export default function ShowsPage() {
   const { data: shows, isLoading } = useGetShows();
   const { data: designConfig } = useGetDesignConfig();
 
-  const accentColor = designConfig?.accentColor || "#00FF00";
+  const accentColor = designConfig?.accentColor || "#8b5cf6";
 
   const formatDate = (timestamp: bigint) => {
     const date = new Date(Number(timestamp) / 1000000);
@@ -73,7 +73,18 @@ export default function ShowsPage() {
                   <h2 className="text-2xl font-bold mb-6">Upcoming Shows</h2>
                   <div className="space-y-4">
                     {upcomingShows.map((show) => (
-                      <Card key={show.id}>
+                      <Card
+                        key={show.id}
+                        className="transition-all duration-200 hover:scale-[1.01]"
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLDivElement).style.boxShadow =
+                            `0 6px 24px ${accentColor}20`;
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLDivElement).style.boxShadow =
+                            "";
+                        }}
+                      >
                         <div className="flex flex-col md:flex-row gap-6 p-6">
                           {/* Flyer Image */}
                           {show.flyer && (
@@ -82,6 +93,8 @@ export default function ShowsPage() {
                                 <img
                                   src={show.flyer.getDirectURL()}
                                   alt={`${show.title} flyer`}
+                                  loading="lazy"
+                                  decoding="async"
                                   className="max-w-full max-h-full w-auto h-auto object-contain"
                                 />
                               </div>
@@ -149,7 +162,10 @@ export default function ShowsPage() {
                   <h2 className="text-2xl font-bold mb-6">Past Shows</h2>
                   <div className="space-y-4">
                     {pastShows.map((show) => (
-                      <Card key={show.id} className="opacity-75">
+                      <Card
+                        key={show.id}
+                        className="opacity-75 transition-all duration-200 hover:scale-[1.005] hover:opacity-90"
+                      >
                         <div className="flex flex-col md:flex-row gap-6 p-6">
                           {/* Flyer Image */}
                           {show.flyer && (
@@ -158,6 +174,8 @@ export default function ShowsPage() {
                                 <img
                                   src={show.flyer.getDirectURL()}
                                   alt={`${show.title} flyer`}
+                                  loading="lazy"
+                                  decoding="async"
                                   className="max-w-full max-h-full w-auto h-auto object-contain"
                                 />
                               </div>

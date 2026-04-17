@@ -11,7 +11,7 @@ interface MusicPlayerProps {
 
 export default function MusicPlayer({
   mediaItem,
-  accentColor = "#00FF00",
+  accentColor = "#8b5cf6",
 }: MusicPlayerProps) {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);

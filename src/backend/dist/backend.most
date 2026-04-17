@@ -1,16 +1,8 @@
-// Version: 3.0.0
+// Version: 1.0.0
 type AudioFile__256868299 =
   {
     duration : Nat;
     file : ExternalBlob__246066408;
-    id : Text;
-    title : Text;
-    trackNumber : Nat
-  };
-type AudioFile__887294577 =
-  {
-    duration : Nat;
-    file : ExternalBlob__665380005;
     id : Text;
     title : Text;
     trackNumber : Nat
@@ -33,14 +25,6 @@ type ButtonStyle__656835788 =
     size : Nat;
     textColor : Text
   };
-type CalendarEvent__336167261 =
-  {
-    date : Time__976142243;
-    description : Text;
-    id : Text;
-    location : Text;
-    title : Text
-  };
 type CalendarEvent__740917318 =
   {
     date : Time__900049286;
@@ -59,22 +43,9 @@ type ContactMessage__139940291 =
     subject : Text;
     timestamp : Time__900049286
   };
-type ContactMessage__948336175 =
-  {
-    email : Text;
-    id : Text;
-    message : Text;
-    name : Text;
-    read : Bool;
-    subject : Text;
-    timestamp : Time__976142243
-  };
 type Data__791452850<K, V> =
   {var count : Nat__490723111; kvs : [var ?(K, V)]};
 type ExternalBlob__246066408 = Blob;
-type ExternalBlob__665380005 = Blob;
-type FileItem__185652846 =
-  {file : ExternalBlob__665380005; folder : Text; id : Text; name : Text};
 type FileItem__683380133 =
   {file : ExternalBlob__246066408; folder : Text; id : Text; name : Text};
 type HeroMediaType__929745709 = {#image; #video};
@@ -86,8 +57,6 @@ type HeroVideo__962979983 =
     muted : Bool;
     shouldLoop : Bool
   };
-type ImageFile__845756229 =
-  {file : ExternalBlob__665380005; id : Text; isCover : Bool};
 type ImageFile__935202779 =
   {file : ExternalBlob__246066408; id : Text; isCover : Bool};
 type Int__270357528 = Int__616954475;
@@ -99,7 +68,6 @@ type LogoVisibility__926243766 = {header : Bool; hero : Bool};
 type Map__158565046<K, V> = Map__297112838<K, V>;
 type Map__297112838<K, V> =
   {var root : Node__46230540<K, V>; var size : Nat__490723111};
-type Map__334413012<K, V> = {root : Tree__4145630<K, V>; size : Nat};
 type Map__605269027<K, V> = Map__158565046<K, V>;
 type MediaItem__157066646 =
   {
@@ -114,21 +82,7 @@ type MediaItem__157066646 =
     title : Text;
     youtubeUrl : ?Text
   };
-type MediaItem__414599954 =
-  {
-    audioFiles : [AudioFile__887294577];
-    createdAt : Time__976142243;
-    description : Text;
-    id : Text;
-    images : [ImageFile__845756229];
-    mediaType : MediaType__926967568;
-    price : Nat;
-    streamingPlatforms : [StreamingPlatform__743278575];
-    title : Text;
-    youtubeUrl : ?Text
-  };
 type MediaType__597750801 = {#album; #single; #video; #youtube};
-type MediaType__926967568 = {#album; #single; #video; #youtube};
 type Message__19119041 =
   {
     content : Text;
@@ -137,41 +91,12 @@ type Message__19119041 =
     threadId : Text;
     timestamp : Time__900049286
   };
-type Message__56824888 =
-  {
-    content : Text;
-    id : Text;
-    sender : Text;
-    threadId : Text;
-    timestamp : Time__976142243
-  };
 type Nat__490723111 = Nat__920180692;
 type Nat__920180692 = Nat;
 type Node__46230540<K, V> =
   {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
-type OldAccessControlState__633397628 =
-  {
-    var adminAssigned : Bool;
-    var userRoles : Map__334413012<Principal, UserRole__403611420>
-  };
-type OldStorageState__667501572 =
-  {var authorizedPrincipals : [Principal]; var blobTodeletete : [Blob]};
 type ProductVariant__478289016 =
   {id : Text; name : Text; price : Nat; stock : Nat};
-type ProductVariant__632304538 =
-  {id : Text; name : Text; price : Nat; stock : Nat};
-type Product__113329934 =
-  {
-    categories : [Text];
-    createdAt : Time__976142243;
-    description : Text;
-    id : Text;
-    images : [ExternalBlob__665380005];
-    isDigital : Bool;
-    name : Text;
-    order : Nat;
-    variants : [ProductVariant__632304538]
-  };
 type Product__853085059 =
   {
     categories : [Text];
@@ -205,17 +130,6 @@ type Show__470797856 =
     title : Text;
     venue : Text
   };
-type Show__59512557 =
-  {
-    date : Time__976142243;
-    flyer : ?ExternalBlob__665380005;
-    id : Text;
-    location : Text;
-    status : Text;
-    ticketLink : Text;
-    title : Text;
-    venue : Text
-  };
 type SocialMediaLink__210882078 =
   {
     enabled : Bool;
@@ -227,20 +141,9 @@ type SocialMediaLink__210882078 =
   };
 type StreamingPlatform__379396117 =
   {platform : Text; platformLabel : Text; url : Text};
-type StreamingPlatform__743278575 =
-  {platform : Text; platformLabel : Text; url : Text};
 type StripeConfiguration__96897619 =
   {allowedCountries : [Text]; secretKey : Text};
 type TaskStatus__324548698 = {#completed; #inProgress; #todo};
-type Task__866119451 =
-  {
-    assignedTo : [Text];
-    deadline : Time__976142243;
-    description : Text;
-    id : Text;
-    status : {#completed; #inProgress; #todo};
-    title : Text
-  };
 type Task__972485619 =
   {
     assignedTo : [Text];
@@ -252,88 +155,9 @@ type Task__972485619 =
   };
 type Time__796480547 = Int__270357528;
 type Time__900049286 = Time__796480547;
-type Time__976142243 = Int;
-type Tree__4145630<K, V> =
-  {
-    #black : (Tree__4145630<K, V>, K, V, Tree__4145630<K, V>);
-    #leaf;
-    #red : (Tree__4145630<K, V>, K, V, Tree__4145630<K, V>)
-  };
-type UserProfile__315128327 = {email : Text; name : Text};
 type UserProfile__491224006 = {email : Text; name : Text};
 type UserRole__1054455867 = {#admin; #guest; #user};
-type UserRole__403611420 = {#admin; #guest; #user};
-actor ({
-  stable RATE_LIMIT_MAX_REQUESTS : Nat;
-  stable RATE_LIMIT_WINDOW : Int;
-  stable var aboutContent :
-    {
-      bandMembers : [Text];
-      biography : Text;
-      photos : [ExternalBlob__246066408];
-      pressKit : ?ExternalBlob__246066408
-    };
-  in accessControlState : OldAccessControlState__633397628;
-  stable var bookingConfig :
-    {
-      callToAction : Text;
-      email : Text;
-      files : [BookingFile__456738201];
-      links : [BookingLink__332969372]
-    };
-  in var calendarEvents : Map__334413012<Text, CalendarEvent__336167261>;
-  stable var contactConfig :
-    {
-      email : Text;
-      headline : Text;
-      socialMediaLinks : [SocialMediaLink__210882078]
-    };
-  in var contactMessages : Map__334413012<Text, ContactMessage__948336175>;
-  stable var designConfig :
-    {
-      accentColor : Text;
-      buttonStyle : ButtonStyle__656835788;
-      heroImage : ?ExternalBlob__246066408;
-      heroMediaType : HeroMediaType__929745709;
-      heroSubtitle : Text;
-      heroTextColor : Text;
-      heroTextSize : Nat;
-      heroVideo : ?HeroVideo__962979983;
-      hoverOutlineColor : Text;
-      logo : ?ExternalBlob__246066408;
-      logoSize : Nat;
-      logoVisibility : LogoVisibility__926243766;
-      quickButtons : [QuickButton__528815464];
-      tagline : Text
-    };
-  in var files : Map__334413012<Text, FileItem__185652846>;
-  stable var homepageConfig :
-    {
-      autoUpcomingShows : Bool;
-      featuredProductIds : [Text];
-      latestReleaseId : ?Text;
-      upcomingShowIds : [Text]
-    };
-  stable var lastMaintenanceCheck : Int;
-  stable var lastTopUpTime : ?Time__900049286;
-  stable var legalContent :
-    {
-      imprint : Text;
-      lastUpdated : Time__900049286;
-      privacyPolicy : Text;
-      termsOfService : Text
-    };
-  in var mediaItems : Map__334413012<Text, MediaItem__414599954>;
-  in var messages : Map__334413012<Text, Message__56824888>;
-  in var products : Map__334413012<Text, Product__113329934>;
-  in var rateLimitMap : Map__334413012<Principal, [Int]>;
-  in var shows : Map__334413012<Text, Show__59512557>;
-  stable var socialMediaLinks : [SocialMediaLink__210882078];
-  in storage : OldStorageState__667501572;
-  stable var stripeConfig : ?StripeConfiguration__96897619;
-  in var tasks : Map__334413012<Text, Task__866119451>;
-  in var userProfiles : Map__334413012<Principal, UserProfile__315128327>
-}, {
+actor {
   stable RATE_LIMIT_MAX_REQUESTS : Nat;
   stable RATE_LIMIT_WINDOW : Int;
   stable var aboutContent :
@@ -443,4 +267,4 @@ actor ({
       var root : Node__46230540<Principal, UserProfile__491224006>;
       var size : Nat__490723111
     }
-}) ;
+};

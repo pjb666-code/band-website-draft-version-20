@@ -194,7 +194,14 @@ export default function ShopPage() {
                 return (
                   <Card
                     key={product.id}
-                    className="overflow-hidden flex flex-col"
+                    className="overflow-hidden flex flex-col transition-all duration-200 hover:scale-[1.02]"
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLDivElement).style.boxShadow =
+                        "0 6px 24px rgba(0,0,0,0.25)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLDivElement).style.boxShadow = "";
+                    }}
                   >
                     {productImages.length > 0 && (
                       <div className="aspect-square overflow-hidden bg-muted flex items-center justify-center relative group">

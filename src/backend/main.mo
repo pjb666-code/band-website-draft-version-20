@@ -11,9 +11,9 @@ import Time "mo:core/Time";
 import Array "mo:core/Array";
 import Cycles "mo:core/Cycles";
 import Runtime "mo:core/Runtime";
-import Migration "migration";
 
-(with migration = Migration.run)
+
+
 actor Oneiric {
   // ── Access control ──
   let accessControlState = AccessControl.initState();
@@ -162,20 +162,20 @@ actor Oneiric {
     logo = null;
     heroImage = null;
     tagline = "";
-    accentColor = "#00FF00";
+    accentColor = "#8b5cf6";
     heroTextColor = "#FFFFFF";
     heroTextSize = 48;
     logoSize = 100;
     buttonStyle = {
-      backgroundColor = "#00FF00";
+      backgroundColor = "#8b5cf6";
       textColor = "#FFFFFF";
-      borderColor = "#00FF00";
+      borderColor = "#8b5cf6";
       borderRadius = 8;
       borderWidth = 2;
       borderStyle = "solid";
-      hoverBackgroundColor = "#00CC00";
+      hoverBackgroundColor = "#7c3aed";
       hoverTextColor = "#FFFFFF";
-      hoverBorderColor = "#00CC00";
+      hoverBorderColor = "#7c3aed";
       shape = "rounded";
       size = 48;
     };
@@ -185,7 +185,7 @@ actor Oneiric {
     };
     quickButtons = [];
     heroSubtitle = "";
-    hoverOutlineColor = "#00FF00";
+    hoverOutlineColor = "#8b5cf6";
     heroMediaType = #image;
     heroVideo = null;
   };

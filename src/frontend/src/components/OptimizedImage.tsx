@@ -18,7 +18,6 @@ export default function OptimizedImage({
 }: OptimizedImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
-  // Observe the container div so it works even before the img is rendered
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -33,20 +32,13 @@ export default function OptimizedImage({
           }
         }
       },
-      {
-        // Start loading 200px before the image enters the viewport
-        rootMargin: "200px",
-      },
+      // Increased from 300px → 500px so images start loading earlier
+      { rootMargin: "500px" },
     );
 
     const el = containerRef.current;
-    if (el) {
-      observer.observe(el);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
+    if (el) observer.observe(el);
+    return () => observer.disconnect();
   }, [priority]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -66,20 +58,20 @@ export default function OptimizedImage({
       tabIndex={onClick ? 0 : undefined}
       style={{ cursor: onClick ? "pointer" : undefined }}
     >
-      {/* Placeholder shown while image hasn't loaded yet */}
-      <div
-        className={cn(
-          "absolute inset-0 bg-muted transition-opacity duration-500",
-          isLoaded ? "opacity-0 pointer-events-none" : "opacity-100",
-        )}
-        aria-hidden="true"
-      />
+      {/* Shimmer skeleton with correct dark-theme color while loading */}
+      {!isLoaded && (
+        <div
+          className="absolute inset-0 skeleton-shimmer"
+          style={{ minHeight: "200px" }}
+          aria-hidden="true"
+        />
+      )}
 
-      {/* Reserve space so the container has height before img loads */}
+      {/* Space reservation — prevents layout shift */}
       {!isLoaded && (
         <div
           className="w-full"
-          style={{ paddingBottom: "66.67%" }}
+          style={{ paddingBottom: "66.67%", minHeight: "200px" }}
           aria-hidden="true"
         />
       )}
@@ -89,12 +81,13 @@ export default function OptimizedImage({
         <img
           src={src}
           alt={alt}
+          loading={priority ? "eager" : "lazy"}
+          decoding="async"
           className={cn(
             "w-full h-auto object-contain transition-opacity duration-500",
             isLoaded ? "opacity-100" : "opacity-0 absolute inset-0",
           )}
           onLoad={() => setIsLoaded(true)}
-          loading={priority ? "eager" : "lazy"}
         />
       )}
     </div>

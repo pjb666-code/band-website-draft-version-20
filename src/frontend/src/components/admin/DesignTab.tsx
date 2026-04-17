@@ -91,16 +91,16 @@ export default function DesignTab() {
   const [quickButtons, setQuickButtons] = useState<QuickButton[]>([]);
 
   // Button style states
-  const [buttonBgColor, setButtonBgColor] = useState("#00FF00");
+  const [buttonBgColor, setButtonBgColor] = useState("#8b5cf6");
   const [buttonTextColor, setButtonTextColor] = useState("#FFFFFF");
-  const [buttonBorderColor, setButtonBorderColor] = useState("#00FF00");
+  const [buttonBorderColor, setButtonBorderColor] = useState("#8b5cf6");
   const [buttonBorderRadius, setButtonBorderRadius] = useState(8);
   const [buttonBorderWidth, setButtonBorderWidth] = useState(2);
   const [buttonBorderStyle, setButtonBorderStyle] = useState("solid");
-  const [buttonHoverBgColor, setButtonHoverBgColor] = useState("#00CC00");
+  const [buttonHoverBgColor, setButtonHoverBgColor] = useState("#7c3aed");
   const [buttonHoverTextColor, setButtonHoverTextColor] = useState("#FFFFFF");
   const [buttonHoverBorderColor, setButtonHoverBorderColor] =
-    useState("#00CC00");
+    useState("#7c3aed");
   const [buttonShape, setButtonShape] = useState("rounded");
   const [buttonSize, setButtonSize] = useState(48);
 

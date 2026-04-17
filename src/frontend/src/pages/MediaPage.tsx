@@ -15,7 +15,7 @@ export default function MediaPage() {
   const { data: designConfig } = useGetDesignConfig();
   const [selectedMediaId, setSelectedMediaId] = useState<string | null>(null);
 
-  const accentColor = designConfig?.accentColor || "#00FF00";
+  const accentColor = designConfig?.accentColor || "#8b5cf6";
 
   const albums =
     mediaItems?.filter((item) => item.mediaType === MediaType.album) || [];
@@ -82,7 +82,18 @@ export default function MediaPage() {
                           return (
                             <Card
                               key={album.id}
-                              className="cursor-pointer hover:border-accent/50 transition-all"
+                              className="cursor-pointer transition-all duration-200 hover:scale-[1.02]"
+                              onMouseEnter={(e) => {
+                                (
+                                  e.currentTarget as HTMLDivElement
+                                ).style.boxShadow =
+                                  `0 6px 24px ${accentColor}25`;
+                              }}
+                              onMouseLeave={(e) => {
+                                (
+                                  e.currentTarget as HTMLDivElement
+                                ).style.boxShadow = "";
+                              }}
                               onClick={() => setSelectedMediaId(album.id)}
                             >
                               <CardContent className="p-0">
@@ -91,6 +102,8 @@ export default function MediaPage() {
                                     <img
                                       src={coverImage.file.getDirectURL()}
                                       alt={album.title}
+                                      loading="lazy"
+                                      decoding="async"
                                       className="w-full h-full object-contain p-2"
                                     />
                                   )}
@@ -173,7 +186,18 @@ export default function MediaPage() {
                           return (
                             <Card
                               key={single.id}
-                              className="cursor-pointer hover:border-accent/50 transition-all"
+                              className="cursor-pointer transition-all duration-200 hover:scale-[1.02]"
+                              onMouseEnter={(e) => {
+                                (
+                                  e.currentTarget as HTMLDivElement
+                                ).style.boxShadow =
+                                  `0 6px 24px ${accentColor}25`;
+                              }}
+                              onMouseLeave={(e) => {
+                                (
+                                  e.currentTarget as HTMLDivElement
+                                ).style.boxShadow = "";
+                              }}
                               onClick={() => setSelectedMediaId(single.id)}
                             >
                               <CardContent className="p-0">
@@ -182,6 +206,8 @@ export default function MediaPage() {
                                     <img
                                       src={coverImage.file.getDirectURL()}
                                       alt={single.title}
+                                      loading="lazy"
+                                      decoding="async"
                                       className="w-full h-full object-contain p-2"
                                     />
                                   )}
