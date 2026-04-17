@@ -1,0 +1,446 @@
+// Version: 3.0.0
+type AudioFile__256868299 =
+  {
+    duration : Nat;
+    file : ExternalBlob__246066408;
+    id : Text;
+    title : Text;
+    trackNumber : Nat
+  };
+type AudioFile__887294577 =
+  {
+    duration : Nat;
+    file : ExternalBlob__665380005;
+    id : Text;
+    title : Text;
+    trackNumber : Nat
+  };
+type BookingFile__456738201 =
+  {file : ExternalBlob__246066408; fileType : Text; id : Text; name : Text};
+type BookingLink__332969372 =
+  {id : Text; linkLabel : Text; type_ : Text; url : Text};
+type ButtonStyle__656835788 =
+  {
+    backgroundColor : Text;
+    borderColor : Text;
+    borderRadius : Nat;
+    borderStyle : Text;
+    borderWidth : Nat;
+    hoverBackgroundColor : Text;
+    hoverBorderColor : Text;
+    hoverTextColor : Text;
+    shape : Text;
+    size : Nat;
+    textColor : Text
+  };
+type CalendarEvent__336167261 =
+  {
+    date : Time__976142243;
+    description : Text;
+    id : Text;
+    location : Text;
+    title : Text
+  };
+type CalendarEvent__740917318 =
+  {
+    date : Time__900049286;
+    description : Text;
+    id : Text;
+    location : Text;
+    title : Text
+  };
+type ContactMessage__139940291 =
+  {
+    email : Text;
+    id : Text;
+    message : Text;
+    name : Text;
+    read : Bool;
+    subject : Text;
+    timestamp : Time__900049286
+  };
+type ContactMessage__948336175 =
+  {
+    email : Text;
+    id : Text;
+    message : Text;
+    name : Text;
+    read : Bool;
+    subject : Text;
+    timestamp : Time__976142243
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type ExternalBlob__246066408 = Blob;
+type ExternalBlob__665380005 = Blob;
+type FileItem__185652846 =
+  {file : ExternalBlob__665380005; folder : Text; id : Text; name : Text};
+type FileItem__683380133 =
+  {file : ExternalBlob__246066408; folder : Text; id : Text; name : Text};
+type HeroMediaType__929745709 = {#image; #video};
+type HeroVideo__962979983 =
+  {
+    autoplay : Bool;
+    externalUrl : ?Text;
+    file : ?ExternalBlob__246066408;
+    muted : Bool;
+    shouldLoop : Bool
+  };
+type ImageFile__845756229 =
+  {file : ExternalBlob__665380005; id : Text; isCover : Bool};
+type ImageFile__935202779 =
+  {file : ExternalBlob__246066408; id : Text; isCover : Bool};
+type Int__270357528 = Int__616954475;
+type Int__616954475 = Int;
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type LogoVisibility__926243766 = {header : Bool; hero : Bool};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__334413012<K, V> = {root : Tree__4145630<K, V>; size : Nat};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type MediaItem__157066646 =
+  {
+    audioFiles : [AudioFile__256868299];
+    createdAt : Time__900049286;
+    description : Text;
+    id : Text;
+    images : [ImageFile__935202779];
+    mediaType : MediaType__597750801;
+    price : Nat;
+    streamingPlatforms : [StreamingPlatform__379396117];
+    title : Text;
+    youtubeUrl : ?Text
+  };
+type MediaItem__414599954 =
+  {
+    audioFiles : [AudioFile__887294577];
+    createdAt : Time__976142243;
+    description : Text;
+    id : Text;
+    images : [ImageFile__845756229];
+    mediaType : MediaType__926967568;
+    price : Nat;
+    streamingPlatforms : [StreamingPlatform__743278575];
+    title : Text;
+    youtubeUrl : ?Text
+  };
+type MediaType__597750801 = {#album; #single; #video; #youtube};
+type MediaType__926967568 = {#album; #single; #video; #youtube};
+type Message__19119041 =
+  {
+    content : Text;
+    id : Text;
+    sender : Text;
+    threadId : Text;
+    timestamp : Time__900049286
+  };
+type Message__56824888 =
+  {
+    content : Text;
+    id : Text;
+    sender : Text;
+    threadId : Text;
+    timestamp : Time__976142243
+  };
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type OldAccessControlState__633397628 =
+  {
+    var adminAssigned : Bool;
+    var userRoles : Map__334413012<Principal, UserRole__403611420>
+  };
+type OldStorageState__667501572 =
+  {var authorizedPrincipals : [Principal]; var blobTodeletete : [Blob]};
+type ProductVariant__478289016 =
+  {id : Text; name : Text; price : Nat; stock : Nat};
+type ProductVariant__632304538 =
+  {id : Text; name : Text; price : Nat; stock : Nat};
+type Product__113329934 =
+  {
+    categories : [Text];
+    createdAt : Time__976142243;
+    description : Text;
+    id : Text;
+    images : [ExternalBlob__665380005];
+    isDigital : Bool;
+    name : Text;
+    order : Nat;
+    variants : [ProductVariant__632304538]
+  };
+type Product__853085059 =
+  {
+    categories : [Text];
+    createdAt : Time__900049286;
+    description : Text;
+    id : Text;
+    images : [ExternalBlob__246066408];
+    isDigital : Bool;
+    name : Text;
+    order : Nat;
+    variants : [ProductVariant__478289016]
+  };
+type QuickButton__528815464 =
+  {
+    buttonLabel : Text;
+    enabled : Bool;
+    icon : Text;
+    id : Text;
+    order : Nat;
+    size : Nat;
+    url : Text
+  };
+type Show__470797856 =
+  {
+    date : Time__900049286;
+    flyer : ?ExternalBlob__246066408;
+    id : Text;
+    location : Text;
+    status : Text;
+    ticketLink : Text;
+    title : Text;
+    venue : Text
+  };
+type Show__59512557 =
+  {
+    date : Time__976142243;
+    flyer : ?ExternalBlob__665380005;
+    id : Text;
+    location : Text;
+    status : Text;
+    ticketLink : Text;
+    title : Text;
+    venue : Text
+  };
+type SocialMediaLink__210882078 =
+  {
+    enabled : Bool;
+    icon : Text;
+    id : Text;
+    order : Nat;
+    platform : Text;
+    url : Text
+  };
+type StreamingPlatform__379396117 =
+  {platform : Text; platformLabel : Text; url : Text};
+type StreamingPlatform__743278575 =
+  {platform : Text; platformLabel : Text; url : Text};
+type StripeConfiguration__96897619 =
+  {allowedCountries : [Text]; secretKey : Text};
+type TaskStatus__324548698 = {#completed; #inProgress; #todo};
+type Task__866119451 =
+  {
+    assignedTo : [Text];
+    deadline : Time__976142243;
+    description : Text;
+    id : Text;
+    status : {#completed; #inProgress; #todo};
+    title : Text
+  };
+type Task__972485619 =
+  {
+    assignedTo : [Text];
+    deadline : Time__900049286;
+    description : Text;
+    id : Text;
+    status : TaskStatus__324548698;
+    title : Text
+  };
+type Time__796480547 = Int__270357528;
+type Time__900049286 = Time__796480547;
+type Time__976142243 = Int;
+type Tree__4145630<K, V> =
+  {
+    #black : (Tree__4145630<K, V>, K, V, Tree__4145630<K, V>);
+    #leaf;
+    #red : (Tree__4145630<K, V>, K, V, Tree__4145630<K, V>)
+  };
+type UserProfile__315128327 = {email : Text; name : Text};
+type UserProfile__491224006 = {email : Text; name : Text};
+type UserRole__1054455867 = {#admin; #guest; #user};
+type UserRole__403611420 = {#admin; #guest; #user};
+actor ({
+  stable RATE_LIMIT_MAX_REQUESTS : Nat;
+  stable RATE_LIMIT_WINDOW : Int;
+  stable var aboutContent :
+    {
+      bandMembers : [Text];
+      biography : Text;
+      photos : [ExternalBlob__246066408];
+      pressKit : ?ExternalBlob__246066408
+    };
+  in accessControlState : OldAccessControlState__633397628;
+  stable var bookingConfig :
+    {
+      callToAction : Text;
+      email : Text;
+      files : [BookingFile__456738201];
+      links : [BookingLink__332969372]
+    };
+  in var calendarEvents : Map__334413012<Text, CalendarEvent__336167261>;
+  stable var contactConfig :
+    {
+      email : Text;
+      headline : Text;
+      socialMediaLinks : [SocialMediaLink__210882078]
+    };
+  in var contactMessages : Map__334413012<Text, ContactMessage__948336175>;
+  stable var designConfig :
+    {
+      accentColor : Text;
+      buttonStyle : ButtonStyle__656835788;
+      heroImage : ?ExternalBlob__246066408;
+      heroMediaType : HeroMediaType__929745709;
+      heroSubtitle : Text;
+      heroTextColor : Text;
+      heroTextSize : Nat;
+      heroVideo : ?HeroVideo__962979983;
+      hoverOutlineColor : Text;
+      logo : ?ExternalBlob__246066408;
+      logoSize : Nat;
+      logoVisibility : LogoVisibility__926243766;
+      quickButtons : [QuickButton__528815464];
+      tagline : Text
+    };
+  in var files : Map__334413012<Text, FileItem__185652846>;
+  stable var homepageConfig :
+    {
+      autoUpcomingShows : Bool;
+      featuredProductIds : [Text];
+      latestReleaseId : ?Text;
+      upcomingShowIds : [Text]
+    };
+  stable var lastMaintenanceCheck : Int;
+  stable var lastTopUpTime : ?Time__900049286;
+  stable var legalContent :
+    {
+      imprint : Text;
+      lastUpdated : Time__900049286;
+      privacyPolicy : Text;
+      termsOfService : Text
+    };
+  in var mediaItems : Map__334413012<Text, MediaItem__414599954>;
+  in var messages : Map__334413012<Text, Message__56824888>;
+  in var products : Map__334413012<Text, Product__113329934>;
+  in var rateLimitMap : Map__334413012<Principal, [Int]>;
+  in var shows : Map__334413012<Text, Show__59512557>;
+  stable var socialMediaLinks : [SocialMediaLink__210882078];
+  in storage : OldStorageState__667501572;
+  stable var stripeConfig : ?StripeConfiguration__96897619;
+  in var tasks : Map__334413012<Text, Task__866119451>;
+  in var userProfiles : Map__334413012<Principal, UserProfile__315128327>
+}, {
+  stable RATE_LIMIT_MAX_REQUESTS : Nat;
+  stable RATE_LIMIT_WINDOW : Int;
+  stable var aboutContent :
+    {
+      bandMembers : [Text];
+      biography : Text;
+      photos : [ExternalBlob__246066408];
+      pressKit : ?ExternalBlob__246066408
+    };
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1054455867>
+    };
+  stable var bookingConfig :
+    {
+      callToAction : Text;
+      email : Text;
+      files : [BookingFile__456738201];
+      links : [BookingLink__332969372]
+    };
+  stable var calendarEvents :
+    {
+      var root : Node__46230540<Text, CalendarEvent__740917318>;
+      var size : Nat__490723111
+    };
+  stable var contactConfig :
+    {
+      email : Text;
+      headline : Text;
+      socialMediaLinks : [SocialMediaLink__210882078]
+    };
+  stable var contactMessages :
+    {
+      var root : Node__46230540<Text, ContactMessage__139940291>;
+      var size : Nat__490723111
+    };
+  stable var designConfig :
+    {
+      accentColor : Text;
+      buttonStyle : ButtonStyle__656835788;
+      heroImage : ?ExternalBlob__246066408;
+      heroMediaType : HeroMediaType__929745709;
+      heroSubtitle : Text;
+      heroTextColor : Text;
+      heroTextSize : Nat;
+      heroVideo : ?HeroVideo__962979983;
+      hoverOutlineColor : Text;
+      logo : ?ExternalBlob__246066408;
+      logoSize : Nat;
+      logoVisibility : LogoVisibility__926243766;
+      quickButtons : [QuickButton__528815464];
+      tagline : Text
+    };
+  stable var files :
+    {
+      var root : Node__46230540<Text, FileItem__683380133>;
+      var size : Nat__490723111
+    };
+  stable var homepageConfig :
+    {
+      autoUpcomingShows : Bool;
+      featuredProductIds : [Text];
+      latestReleaseId : ?Text;
+      upcomingShowIds : [Text]
+    };
+  stable var lastMaintenanceCheck : Int;
+  stable var lastTopUpTime : ?Time__900049286;
+  stable var legalContent :
+    {
+      imprint : Text;
+      lastUpdated : Time__900049286;
+      privacyPolicy : Text;
+      termsOfService : Text
+    };
+  stable var mediaItems :
+    {
+      var root : Node__46230540<Text, MediaItem__157066646>;
+      var size : Nat__490723111
+    };
+  stable var messages :
+    {
+      var root : Node__46230540<Text, Message__19119041>;
+      var size : Nat__490723111
+    };
+  stable var products :
+    {
+      var root : Node__46230540<Text, Product__853085059>;
+      var size : Nat__490723111
+    };
+  stable var rateLimitMap :
+    {var root : Node__46230540<Principal, [Int]>; var size : Nat__490723111};
+  stable var shows :
+    {
+      var root : Node__46230540<Text, Show__470797856>;
+      var size : Nat__490723111
+    };
+  stable var socialMediaLinks : [SocialMediaLink__210882078];
+  stable var stripeConfig : ?StripeConfiguration__96897619;
+  stable var tasks :
+    {
+      var root : Node__46230540<Text, Task__972485619>;
+      var size : Nat__490723111
+    };
+  stable var userProfiles :
+    {
+      var root : Node__46230540<Principal, UserProfile__491224006>;
+      var size : Nat__490723111
+    }
+}) ;

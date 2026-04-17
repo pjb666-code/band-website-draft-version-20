@@ -1,0 +1,382 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserProfile = 
+ record {
+   email: text;
+   name: text;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type Time = int;
+type TaskStatus = 
+ variant {
+   completed;
+   inProgress;
+   todo;
+ };
+type Task = 
+ record {
+   assignedTo: vec text;
+   deadline: Time;
+   description: text;
+   id: text;
+   status: TaskStatus;
+   title: text;
+ };
+type StripeSessionStatus = 
+ variant {
+   completed: record {
+                response: text;
+                userPrincipal: opt text;
+              };
+   failed: record {error: text;};
+ };
+type StripeConfiguration = 
+ record {
+   allowedCountries: vec text;
+   secretKey: text;
+ };
+type StreamingPlatform = 
+ record {
+   platform: text;
+   platformLabel: text;
+   url: text;
+ };
+type SocialMediaLink = 
+ record {
+   enabled: bool;
+   icon: text;
+   id: text;
+   order: nat;
+   platform: text;
+   url: text;
+ };
+type Show = 
+ record {
+   date: Time;
+   flyer: opt ExternalBlob;
+   id: text;
+   location: text;
+   status: text;
+   ticketLink: text;
+   title: text;
+   venue: text;
+ };
+type ShoppingItem = 
+ record {
+   currency: text;
+   priceInCents: nat;
+   productDescription: text;
+   productName: text;
+   quantity: nat;
+ };
+type QuickButton = 
+ record {
+   buttonLabel: text;
+   enabled: bool;
+   icon: text;
+   id: text;
+   order: nat;
+   size: nat;
+   url: text;
+ };
+type ProductVariant = 
+ record {
+   id: text;
+   name: text;
+   price: nat;
+   stock: nat;
+ };
+type Product = 
+ record {
+   categories: vec text;
+   createdAt: Time;
+   description: text;
+   id: text;
+   images: vec ExternalBlob;
+   isDigital: bool;
+   name: text;
+   order: nat;
+   variants: vec ProductVariant;
+ };
+type Message = 
+ record {
+   content: text;
+   id: text;
+   sender: text;
+   threadId: text;
+   timestamp: Time;
+ };
+type MediaType = 
+ variant {
+   album;
+   single;
+   video;
+   youtube;
+ };
+type MediaItem = 
+ record {
+   audioFiles: vec AudioFile;
+   createdAt: Time;
+   description: text;
+   id: text;
+   images: vec ImageFile;
+   mediaType: MediaType;
+   price: nat;
+   streamingPlatforms: vec StreamingPlatform;
+   title: text;
+   youtubeUrl: opt text;
+ };
+type LogoVisibility = 
+ record {
+   header: bool;
+   hero: bool;
+ };
+type LegalContent = 
+ record {
+   imprint: text;
+   lastUpdated: Time;
+   privacyPolicy: text;
+   termsOfService: text;
+ };
+type ImageFile = 
+ record {
+   file: ExternalBlob;
+   id: text;
+   isCover: bool;
+ };
+type HomepageConfig = 
+ record {
+   autoUpcomingShows: bool;
+   featuredProductIds: vec text;
+   latestReleaseId: opt text;
+   upcomingShowIds: vec text;
+ };
+type HeroVideo = 
+ record {
+   autoplay: bool;
+   externalUrl: opt text;
+   file: opt ExternalBlob;
+   muted: bool;
+   shouldLoop: bool;
+ };
+type HeroMediaType = 
+ variant {
+   image;
+   video;
+ };
+type FileItem = 
+ record {
+   file: ExternalBlob;
+   folder: text;
+   id: text;
+   name: text;
+ };
+type ExternalBlob = blob;
+type DesignConfig = 
+ record {
+   accentColor: text;
+   buttonStyle: ButtonStyle;
+   heroImage: opt ExternalBlob;
+   heroMediaType: HeroMediaType;
+   heroSubtitle: text;
+   heroTextColor: text;
+   heroTextSize: nat;
+   heroVideo: opt HeroVideo;
+   hoverOutlineColor: text;
+   logo: opt ExternalBlob;
+   logoSize: nat;
+   logoVisibility: LogoVisibility;
+   quickButtons: vec QuickButton;
+   tagline: text;
+ };
+type ContactMessage = 
+ record {
+   email: text;
+   id: text;
+   message: text;
+   name: text;
+   read: bool;
+   subject: text;
+   timestamp: Time;
+ };
+type ContactConfig = 
+ record {
+   email: text;
+   headline: text;
+   socialMediaLinks: vec SocialMediaLink;
+ };
+type CanisterStatus = 
+ record {
+   canisterId: text;
+   cycles: nat;
+   lastMaintenanceCheck: Time;
+   lastTopUpTime: opt Time;
+   memorySize: nat;
+   moduleHash: opt blob;
+ };
+type CalendarEvent = 
+ record {
+   date: Time;
+   description: text;
+   id: text;
+   location: text;
+   title: text;
+ };
+type ButtonStyle = 
+ record {
+   backgroundColor: text;
+   borderColor: text;
+   borderRadius: nat;
+   borderStyle: text;
+   borderWidth: nat;
+   hoverBackgroundColor: text;
+   hoverBorderColor: text;
+   hoverTextColor: text;
+   shape: text;
+   size: nat;
+   textColor: text;
+ };
+type BookingLink = 
+ record {
+   id: text;
+   linkLabel: text;
+   "type": text;
+   url: text;
+ };
+type BookingFile = 
+ record {
+   file: ExternalBlob;
+   fileType: text;
+   id: text;
+   name: text;
+ };
+type BookingConfig = 
+ record {
+   callToAction: text;
+   email: text;
+   files: vec BookingFile;
+   links: vec BookingLink;
+ };
+type AudioFile = 
+ record {
+   duration: nat;
+   file: ExternalBlob;
+   id: text;
+   title: text;
+   trackNumber: nat;
+ };
+type AboutContent = 
+ record {
+   bandMembers: vec text;
+   biography: text;
+   photos: vec ExternalBlob;
+   pressKit: opt ExternalBlob;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  addCalendarEvent: (event: CalendarEvent) -> ();
+  addContactMessage: (message: ContactMessage) -> ();
+  addFile: (file: FileItem) -> ();
+  addMediaItem: (item: MediaItem) -> ();
+  addMessage: (message: Message) -> ();
+  addProduct: (product: Product) -> ();
+  addShow: (show: Show) -> ();
+  addTask: (task: Task) -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createCheckoutSession: (items: vec ShoppingItem, successUrl: text,
+   cancelUrl: text) -> (text);
+  deleteCalendarEvent: (id: text) -> ();
+  deleteFile: (id: text) -> ();
+  deleteMediaItem: (id: text) -> ();
+  deleteProduct: (id: text) -> ();
+  deleteShow: (id: text) -> ();
+  deleteTask: (id: text) -> ();
+  getAboutContent: () -> (AboutContent) query;
+  getBookingConfig: () -> (BookingConfig) query;
+  getCalendarEvents: () -> (vec CalendarEvent) query;
+  getCallerUserProfile: () -> (opt UserProfile) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getCanisterStatus: () -> (CanisterStatus);
+  getContactConfig: () -> (ContactConfig) query;
+  getContactMessages: () -> (vec ContactMessage) query;
+  getDesignConfig: () -> (DesignConfig) query;
+  getFiles: () -> (vec FileItem) query;
+  getHomepageConfig: () -> (HomepageConfig) query;
+  getLegalContent: () -> (LegalContent) query;
+  getMediaItems: () -> (vec MediaItem) query;
+  getMessages: () -> (vec Message) query;
+  getProducts: () -> (vec Product) query;
+  getShows: () -> (vec Show) query;
+  getSocialMediaLinks: () -> (vec SocialMediaLink) query;
+  getStripeSessionStatus: (sessionId: text) -> (StripeSessionStatus);
+  getTasks: () -> (vec Task) query;
+  getUserProfile: (user: principal) -> (opt UserProfile) query;
+  isCallerAdmin: () -> (bool) query;
+  isStripeConfigured: () -> (bool) query;
+  makeGetOutcall: (url: text) -> (text);
+  markContactMessageAsRead: (id: text) -> ();
+  recordTopUp: () -> ();
+  saveCallerUserProfile: (profile: UserProfile) -> ();
+  setStripeConfiguration: (config: StripeConfiguration) -> ();
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updateAboutContent: (content: AboutContent) -> ();
+  updateBookingConfig: (config: BookingConfig) -> ();
+  updateCalendarEvent: (event: CalendarEvent) -> ();
+  updateContactConfig: (config: ContactConfig) -> ();
+  updateDesignConfig: (config: DesignConfig) -> ();
+  updateHomepageConfig: (config: HomepageConfig) -> ();
+  updateLegalContent: (content: LegalContent) -> ();
+  updateMediaItem: (item: MediaItem) -> ();
+  updateProduct: (product: Product) -> ();
+  updateProductOrder: (productIds: vec text) -> ();
+  updateShow: (show: Show) -> ();
+  updateSocialMediaLinks: (links: vec SocialMediaLink) -> ();
+  updateTask: (task: Task) -> ();
+}
